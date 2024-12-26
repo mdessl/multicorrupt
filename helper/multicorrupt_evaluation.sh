@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # List of corruptions and severity levels
-corruptions=("beamsreducing" "brightness" "dark" "fog" "missingcamera" "motionblur" "pointsreducing" "snow" "spatialmisalignment" "temporalmisalignment")
-severity_levels=("1" "2" "3")
+corruptions=("fog")
+severity_levels=("1")
 
 # Directory paths
-multicorrupt_root="/workspace/multicorrupt/"
-nuscenes_data_dir="/workspace/data/nuscenes"
+multicorrupt_root="/MultiCorrupt/multicorrupt/"
+nuscenes_data_dir="/mmdet3d/data/nuscenes"
 logfile="/workspace/evaluation_log.txt"
 
 # Model evaluation command (replace with your actual command)
@@ -21,7 +21,7 @@ for corruption in "${corruptions[@]}"; do
     ln -s "$multicorrupt_root/$corruption/$severity" "$nuscenes_data_dir"
 
     # Perform model evaluation
-    output=$(bash tools/test.py /workspace/projects/configs/path_to_config.py /workspace/ckpts/path_to_checkpoint.pth)
+    output=$(bash /mmdet3d/tools/dist_test.sh /mmdet3d/projects/BEVFusion/configs/sbnet_256_ordered.py /mmdet3d/bevfusion_lidar-cam_voxel0075_second_secfpn_8xb4-cyclic-20e_nus-3d-5239b1af.pth 1)
 
    # Save the entire output to a separate text file
     echo "$output" > "/workspace/${corruption}_${severity}_output.txt"
