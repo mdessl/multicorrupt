@@ -4,7 +4,7 @@ import math
 from typing import Dict, List, Tuple
 from copy import deepcopy
 import numpy as np
-import pickle5 as pickle
+import pickle
 from pathlib import Path
 import yaml
 import itertools
