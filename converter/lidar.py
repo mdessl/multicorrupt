@@ -116,7 +116,7 @@ def transform_points(points, severity):
 
 """ beam reduce """
 def reduce_LiDAR_beamsV2(pts, severity):
-    s = [16, 8, 4][severity - 1]
+    s = [16, 8, 4,2,1][severity - 1]
     
     if s == 16:
         allowed_beams = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31]
@@ -124,7 +124,10 @@ def reduce_LiDAR_beamsV2(pts, severity):
         allowed_beams = [1, 5, 9, 13, 17, 21, 25, 29]
     elif s == 4:
         allowed_beams = [1, 9, 17, 25]
-    
+    elif s == 2:
+        allowed_beams = [1, 17]
+    elif s == 1:
+        allowed_beams = [1]   
     mask = np.full(pts.shape[0], False)
     for beam in allowed_beams:
         beam_mask = pts[:, 4] == beam
@@ -144,7 +147,7 @@ def pointsreducing(pts, severity):
     Returns:
     A numpy array of lidar points with missing points.
     """
-    s = [70, 80, 90][severity - 1]
+    s = [70, 80, 90, 95, 99][severity - 1]
 
     size = pts.shape[0]
     nr_of_samps = int(round(size * ((100 - s) / 100)))  # Calculate number of points to keep
